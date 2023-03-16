@@ -5,7 +5,7 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
-  productPhoto
+  productPhotoUpload
 } = require('../controllers/Products');
 
 
@@ -17,17 +17,17 @@ const router = express.Router();
 // Re-route into other resource routers
 router.use('/products/product', productRouter);
 
-router.route('/:id/photo').put(protect, authorize('publisher', 'admin'),productPhoto);
+router.route('/:id/photo').put(protect, authorize('publisher', 'admin'), productPhotoUpload);
 
 router
   .route('/')
-  .get(advancedResults(products, 'product'), getProducts)
-  .post(protect, authorize('publisher', 'admin'),createProduct);
+  .get(advancedResults(product, 'product'), getProducts)
+  .post(protect, authorize('publisher', 'admin'), createProduct);
 
 router
   .route('/:id')
   .get(getProduct)
-  .put(protect, authorize('publisher', 'admin'),updateProduct)
-  .delete(protect, authorize('publisher', 'admin'),deleteProduct);
+  .put(protect, authorize('publisher', 'admin'), updateProduct)
+  .delete(protect, authorize('publisher', 'admin'), deleteProduct);
 
 module.exports = router;
