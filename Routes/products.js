@@ -10,9 +10,8 @@ const {
 
 
 const product = require('../models/product');
-
+const { protect, authorize  } = require('../middleware/auth');
 const productRouter = require('./product');
-
 const router = express.Router();
 
 // Re-route into other resource routers
