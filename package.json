@@ -2,7 +2,7 @@
   "name": "projectobackend",
   "version": "1.0.0",
   "description": "E-Commerce API",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.0"
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.2",
+    "morgan": "^1.10.0"
   }
 }
