@@ -14,11 +14,11 @@ const { protect, authorize  } = require('../middleware/auth');
 const router = express.Router();
 
 
-router.route('/:id/photo').put(protect, authorize('publisher', 'admin'), productPhotoUpload);
+router.route('/products/:id/photo').put(protect, authorize('publisher', 'admin'), productPhotoUpload);
 
 router
   .route('/')
-  .get(advancedResults(product, 'product'), getProducts)
+  .get(product, getProducts)
   .post(protect, authorize('publisher', 'admin'), createProduct);
 
 router
