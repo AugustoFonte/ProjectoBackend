@@ -18,7 +18,7 @@ router.route('/products/:id/photo').put(protect, authorize('publisher', 'admin')
 
 router
   .route('/')
-  .get(getProducts)
+  .get(product, getProducts)
   .post(protect, authorize('publisher', 'admin'), createProduct);
 
 router
