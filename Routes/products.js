@@ -11,11 +11,8 @@ const {
 
 const product = require('../models/product');
 const { protect, authorize  } = require('../middleware/auth');
-const productRouter = require('./product');
 const router = express.Router();
 
-// Re-route into other resource routers
-router.use('/products/product', productRouter);
 
 router.route('/:id/photo').put(protect, authorize('publisher', 'admin'), productPhotoUpload);
 
