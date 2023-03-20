@@ -4,7 +4,8 @@ const router = express.Router();
 const Cart = require('../models/cart');
 const Product = require('../models/product');
 
-router.get('/cart/add-to-cart/:id', function (req, res) {
+/* Carrinho vazio / adicionar item ao carrinho */
+router.post('/carts/:id', function (req, res) {
     const productId = req.params.id;
     const cart = new Cart(req.session.cart ? req.session.cart : {});
 
@@ -18,29 +19,19 @@ router.get('/cart/add-to-cart/:id', function (req, res) {
         res.redirect('/');
     })
 });
-
-router.get('/cart/reduce/:id', function (req, res, next) {
+/* deletar todo o carrinho */
+router.delete('/cart/:id', function (req, res, next) {
     const productId = req.params.id;
     const cart = new Cart(req.session.cart ? req.session.cart : {});
     cart.reduceByOne(productId);
     req.session.cart = cart;
     res.redirect('/cart');
 });
-
-router.get('/cart/remove/:id', function (req, res, next) {
+/* deletar um unico item do carrinho */
+router.delete('/cart/:id/items/:itemID', function (req, res, next) {
     const productId = req.params.id;
     const cart = new Cart(req.session.cart ? req.session.cart : {});
     cart.removeItem(productId);
     req.session.cart = cart;
     res.redirect('/cart');
 });
-
-router.get('/cart', function (req, res, next) {
-    if(!req.session.cart) {
-        return res.render('/cart', {products: null});
-    }
-    const cart = new Cart(req.session.cart);
-    return res.render('shop/cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
-});
-
-module.exports = router;
