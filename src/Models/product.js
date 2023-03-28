@@ -8,12 +8,9 @@ const productSchema = new mongoose.Schema({
   // id in products.json obtained from site
   _id: {
     required: true,
-    type: String,
-    default: function genUUID() {
-        return uuid.v4;
-    },
-    alias: "id",
+    type: mongoose.Schema.Types.ObjectId,
     unique: true,
+    auto: true,
   },
   title: {
     type: String,

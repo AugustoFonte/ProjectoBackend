@@ -57,8 +57,7 @@ exports.getProduct = async (req, res) => {
 exports.createProduct = async (req, res, next) => {
   if(req.body.title === "") {
     res.status(400).json({
-      success: false,
-      message: `Failed to Create product`,
+      message: `failed to create product, please add a title`,
       statusCode: 400,
     });
     return;
@@ -66,11 +65,13 @@ exports.createProduct = async (req, res, next) => {
   const product = await model.create(req.body);
   res.status(200).json({
     data: {
-      id:"data.id"
+      id:product.id,
+      imageUrl: product.imageUrl,
+      title: product.title,
+      description: product.description,
+      price: product.price
 
     },
-    success: true,
-    message: "Create new product",
     statusCode: 200,
   });
 };
@@ -78,6 +79,10 @@ exports.createProduct = async (req, res, next) => {
 // @desc      Update product
 // @route     PUT /api/v1/products/:id
 // @access    Private
+
+//verificar se o produto existe pelo ID
+//se existir atualizar campos
+//se nao existir devolver 404
 exports.updateProduct = async (req, res, next) => {
   res.status(200).json({
     success: true,
@@ -96,7 +101,7 @@ exports.updateProduct = async (req, res, next) => {
 // @route     DELETE /v1/products/:id
 // @access    Private
 exports.deleteProduct = async (req, res, next) => {
-  const data = await model.findById(req.params.id);
+  const data = await model.findByIdAndDelete(req.params.id); // https://attacomsian.com/blog/mongoose-delete-documents
   if (!data) {
     res.status(404).json({
       message: `No Product with the id of ${req.params.id}`,
@@ -104,10 +109,9 @@ exports.deleteProduct = async (req, res, next) => {
     });
     return;
   }
-  data.remove()
+ 
 
   res.status(200).json({
-    success: true,
     message: `Delete product ${req.params.id}`,
     statuscode: 200,
   });

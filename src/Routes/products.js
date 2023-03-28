@@ -10,14 +10,12 @@ const router = express.Router();
 //   .post(protect, authorize('publisher', 'admin'), productPhotoUpload);
 
 router
-.route('/')
-  .get(controller.getProducts)
-  .post(controller.createProduct);
+  .get('/', controller.getProducts)
+  .post('/', controller.createProduct);
 
 router
-.route('/:id')
-  .get(controller.getProduct)
-  .put(controller.updateProduct)
-  .delete(controller.deleteProduct);
+  .get('/:id', controller.getProduct)
+  .put('/:id',controller.updateProduct)
+  .delete('/:id', controller.deleteProduct);
 
 module.exports = router;

@@ -1,30 +1,39 @@
 const fs = require('fs');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const connectDB = require('./database/mongodb');
+require('dotenv').config();
 
-// Load env vars
-dotenv.config({ path: './config/config.env' });
+const mongoDbString = process.env.MONGO_URI;
+connectDB(mongoDbString);
 
 // Load models
-const product = require('./models/product');
-
-// Connect to DB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+const Product = require('./Models/product');
 
 // Read JSON files
-const products = JSON.parse(
-  fs.readFileSync(`${__dirname}/src/_data/products.json`, 'utf-8')
+const productsSeed = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/products.json`, 'utf-8')
 );
+
 
 // Import into DB
 const importData = async () => {
   try {
-    await Product.create(Products);
+    // use async in foreach
+    // https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
+    
+    await Promise.all(productsSeed.map(async (p) => {
+      const product = new Product({
+        id: p.id,
+        imageUrl: p.imageUrl,
+        title: p.title,
+        description: p.description,
+        price: p.price,
+      })
 
-    console.log('Data Imported...'.green.inverse);
+      await product.save();
+
+    })); 
+
+    console.log('Data Imported...');
     process.exit();
   } catch (err) {
     console.error(err);
@@ -36,7 +45,7 @@ const deleteData = async () => {
   try {
     await Product.deleteMany();
 
-    console.log('Data Destroyed...'.red.inverse);
+    console.log('Data Destroyed...');
     process.exit();
   } catch (err) {
     console.error(err);
