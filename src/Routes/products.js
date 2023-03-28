@@ -11,13 +11,13 @@ const router = express.Router();
 
 router
   .get('/', controller.getProducts)
-  .get('/:id', controller.getProduct);
-//   .post(protect, authorize('publisher', 'admin'), createProduct);
+  .get('/:id', controller.getProduct)
+  .post('/:id', authorize('publisher', 'admin'), controller.createProduct);
 
-// router
-//   .route('/products/:id')
-//   .get(getProduct)
-//   .put(protect, authorize('publisher', 'admin'), updateProduct)
-//   .delete(protect, authorize('publisher', 'admin'), deleteProduct);
+router
+.route('/:id')
+.get(controller.getProduct)
+.put(protect, authorize('publisher', 'admin'), controller.updateProduct)
+.delete(protect, authorize('publisher', 'admin'), controller.deleteProduct);
 
 module.exports = router;
