@@ -55,7 +55,20 @@ exports.getProduct = async (req, res) => {
 // @route     POST /v1/products
 // @access    Private
 exports.createProduct = async (req, res, next) => {
+  if(req.body.title === "") {
+    res.status(400).json({
+      success: false,
+      message: `Failed to Create product`,
+      statusCode: 400,
+    });
+    return;
+  }
+  const product = await model.create(req.body);
   res.status(200).json({
+    data: {
+      id:"data.id"
+
+    },
     success: true,
     message: "Create new product",
     statusCode: 200,
@@ -74,7 +87,7 @@ exports.updateProduct = async (req, res, next) => {
 
   res.status(400).json({
     success: false,
-    message: `Failed to create product`,
+    message: `Failed to update product`,
     statusCode: 400,
   });
 };
@@ -91,6 +104,8 @@ exports.deleteProduct = async (req, res, next) => {
     });
     return;
   }
+  data.remove()
+
   res.status(200).json({
     success: true,
     message: `Delete product ${req.params.id}`,
