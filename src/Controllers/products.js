@@ -79,21 +79,19 @@ exports.createProduct = async (req, res, next) => {
 // @desc      Update product
 // @route     PUT /api/v1/products/:id
 // @access    Private
-
-//verificar se o produto existe pelo ID
-//se existir atualizar campos
-//se nao existir devolver 404
 exports.updateProduct = async (req, res, next) => {
+  const update = await model.findByIdAndUpdate(req.params.id, req.params.body);
+    if(!update) {
+      res.status(400).json({
+        message: `Failed to update product`,
+        statusCode: 400,
+  })
+  };
+  
   res.status(200).json({
-    success: true,
     message: `Update product ${req.params.id}`,
     statusCode: 200,
-  });
-
-  res.status(400).json({
-    success: false,
-    message: `Failed to update product`,
-    statusCode: 400,
+  
   });
 };
 
