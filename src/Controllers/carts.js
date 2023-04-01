@@ -1,6 +1,6 @@
 const { response } = require('express');
 const model = require('../Models/carts');
-const productsModel = require('../Models/products');
+const userModel = require('../Models/user');
 const asyncHandler = require('../Middleware/async');
 
 
@@ -9,21 +9,26 @@ const asyncHandler = require('../Middleware/async');
 // @route     GET /shopping-carts
 // @access    Public
 exports.getCarts = asyncHandler(async (req, res, next) => {
-  const cart = await model.find();
+  const carts = await model.find();
 
   data = [];
-  cart.forEach((c) => {
-    plist = [];
-    c.products.forEach((pId) => {
-      product = productsModel.findById(pId)
-      plist.push(product)
-    }) 
+  carts.forEach((c) => {
+    productsList = []
+    c.products.forEach((p) => {
+      productsList.push({
+        id: p._id,
+        imageUrl: p.imageUrl,
+        title: p.title,
+        description: p.description,
+        price: p.price,
+      });
+    }); 
     data.push({
       id: c._id,
       userId: c.userId,
       totalPrice: c.totalPrice,
       status: c.status,
-      products: plist,
+      products: productsList,
     });
   });
 
@@ -46,9 +51,25 @@ exports.getCartByID = asyncHandler(async (req, res, next) => {
     });
     return;
   }
-
+  productsList = []
+    data.products.forEach((p) => {
+      productsList.push({
+        id: p._id,
+        imageUrl: p.imageUrl,
+        title: p.title,
+        description: p.description,
+        price: p.price,
+      });
+    }); 
   res.status(200).json({
     statusCode: 200,
+    data: {
+    id: data._id,
+    userId: data.userId,
+    totalPrice: data.totalPrice,
+    status: data.status,
+    products: productsList
+    }
   });
 });
 
@@ -56,9 +77,25 @@ exports.getCartByID = asyncHandler(async (req, res, next) => {
 // @route     POST /shopping-carts/
 // @access    Private
 exports.createCart = asyncHandler(async (req, res, next) => {
+  if(req.body.userId === "") {
+    res.status(400).json({
+      message: `failed to create cart, cannot link user to cart`,
+      statusCode: 400,
+    });
+    return;
+  }
+  const user = await userModel.findById(req.body.userId)
+  if(!user) {
+    res.status(400).json({
+      message: `failed to create cart, user does not exist`,
+      statusCode: 400,
+    });
+    return;
+  }
     const cart = await model.create(req.body);
   res.status(200).json({
     statusCode: 200,
+    data: cart
   });
 });
 
