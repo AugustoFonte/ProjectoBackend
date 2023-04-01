@@ -1,6 +1,7 @@
 const fs = require('fs');
 const connectDB = require('./database/mongodb');
 require('dotenv').config();
+const mongoose = require('mongoose');
 
 const mongoDbString = process.env.MONGO_URI;
 connectDB(mongoDbString);
@@ -22,7 +23,7 @@ const importData = async () => {
     
     await Promise.all(productsSeed.map(async (p) => {
       const product = new Product({
-        id: p.id,
+        id: new mongoose.Types.ObjectId(),
         imageUrl: p.imageUrl,
         title: p.title,
         description: p.description,
@@ -36,7 +37,7 @@ const importData = async () => {
     console.log('Data Imported...');
     process.exit();
   } catch (err) {
-    console.error(err);
+    console.error(err);4
   }
 };
 

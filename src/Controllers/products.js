@@ -1,17 +1,18 @@
-const { response } = require("express");
-const model = require("../Models/product");
+const { response } = require('express');
+const model = require('../Models/product');
+const asyncHandler = require('../Middleware/async');
 
 // Nodejs + MongoDB usage: https://www.freecodecamp.org/news/build-a-restful-api-using-node-express-and-mongodb/
 // @desc      Get all Products
 // @route     GET /v1/products
 // @access    Public
-exports.getProducts = async (req, res) => {
+exports.getProducts = asyncHandler(async (req, res, next) => {
   const products = await model.find();
 
   data = [];
   products.forEach((p) => {
     data.push({
-      id: p.id,
+      id: p._id,
       imageUrl: p.imageUrl,
       title: p.title,
       description: p.description,
@@ -23,12 +24,12 @@ exports.getProducts = async (req, res) => {
     data: data,
     statusCode: 200,
   });
-};
+});
 
 // @desc      Get single product
 // @route     GET /v1/products/:id
 // @access    Public
-exports.getProduct = async (req, res) => {
+exports.getProduct = asyncHandler(async (req, res, next) => {
   const data = await model.findById(req.params.id);
 
   if (!data) {
@@ -49,12 +50,12 @@ exports.getProduct = async (req, res) => {
     },
     statusCode: 200,
   });
-};
+});
 
 // @desc      Create new product
 // @route     POST /v1/products
 // @access    Private
-exports.createProduct = async (req, res, next) => {
+exports.createProduct = asyncHandler(async (req, res, next) => {
   if(req.body.title === "") {
     res.status(400).json({
       message: `failed to create product, please add a title`,
@@ -74,12 +75,12 @@ exports.createProduct = async (req, res, next) => {
     },
     statusCode: 200,
   });
-};
+});
 
 // @desc      Update product
 // @route     PUT /api/v1/products/:id
 // @access    Private
-exports.updateProduct = async (req, res, next) => {
+exports.updateProduct = asyncHandler(async (req, res, next) => {
   const update = await model.findByIdAndUpdate(req.params.id, req.params.body);
     if(!update) {
       res.status(400).json({
@@ -93,12 +94,12 @@ exports.updateProduct = async (req, res, next) => {
     statusCode: 200,
   
   });
-};
+});
 
 // @desc      Delete product
 // @route     DELETE /v1/products/:id
 // @access    Private
-exports.deleteProduct = async (req, res, next) => {
+exports.deleteProduct = asyncHandler(async (req, res, next) => {
   const data = await model.findByIdAndDelete(req.params.id); // https://attacomsian.com/blog/mongoose-delete-documents
   if (!data) {
     res.status(404).json({
@@ -110,7 +111,7 @@ exports.deleteProduct = async (req, res, next) => {
  
 
   res.status(200).json({
-    message: `Delete product ${req.params.id}`,
+    message: `Deleted product ${req.params.id}`,
     statuscode: 200,
   });
-};
+});
