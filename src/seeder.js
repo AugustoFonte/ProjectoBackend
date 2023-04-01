@@ -7,7 +7,7 @@ const mongoDbString = process.env.MONGO_URI;
 connectDB(mongoDbString);
 
 // Load models
-const Product = require('./Models/product');
+const Product = require('./Models/products');
 const Users = require('./Models/user');
 
 // Read JSON files

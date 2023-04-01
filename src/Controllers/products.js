@@ -1,10 +1,10 @@
 const { response } = require('express');
-const model = require('../Models/product');
+const model = require('../Models/products');
 const asyncHandler = require('../Middleware/async');
 
 // Nodejs + MongoDB usage: https://www.freecodecamp.org/news/build-a-restful-api-using-node-express-and-mongodb/
 // @desc      Get all Products
-// @route     GET /v1/products
+// @route     GET /products
 // @access    Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
   const products = await model.find();
@@ -27,7 +27,7 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Get single product
-// @route     GET /v1/products/:id
+// @route     GET /products/:id
 // @access    Public
 exports.getProduct = asyncHandler(async (req, res, next) => {
   const data = await model.findById(req.params.id);
@@ -53,7 +53,7 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Create new product
-// @route     POST /v1/products
+// @route     POST /products
 // @access    Private
 exports.createProduct = asyncHandler(async (req, res, next) => {
   if(req.body.title === "") {
@@ -78,7 +78,7 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Update product
-// @route     PUT /api/v1/products/:id
+// @route     PUT /products/:id
 // @access    Private
 exports.updateProduct = asyncHandler(async (req, res, next) => {
   const update = await model.findByIdAndUpdate(req.params.id, req.params.body);
@@ -97,7 +97,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Delete product
-// @route     DELETE /v1/products/:id
+// @route     DELETE /products/:id
 // @access    Private
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
   const data = await model.findByIdAndDelete(req.params.id); // https://attacomsian.com/blog/mongoose-delete-documents
