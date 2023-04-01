@@ -1,5 +1,6 @@
 const { response } = require('express');
-const model = require('../Models/cart');
+const model = require('../Models/carts');
+const productsModel = require('../Models/products');
 const asyncHandler = require('../Middleware/async');
 
 
@@ -12,12 +13,17 @@ exports.getCarts = asyncHandler(async (req, res, next) => {
 
   data = [];
   cart.forEach((c) => {
+    plist = [];
+    c.products.forEach((pId) => {
+      product = productsModel.findById(pId)
+      plist.push(product)
+    }) 
     data.push({
       id: c._id,
       userId: c.userId,
       totalPrice: c.totalPrice,
       status: c.status,
-      products: c.products,
+      products: plist,
     });
   });
 

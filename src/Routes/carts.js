@@ -9,9 +9,9 @@ GET /shopping-carts/:id/checkouts
 DELETE /shopping-carts/:id */
 
 router
-.get('/shopping-carts', controller.getCarts)
-.get('/shopping-carts/:id', controller.getCartByID)
-.post ('/shopping-carts', controller.createCart)
-.delete('/shopping-carts/:id', controller.deleteCart)
+.get('/', controller.getCarts)
+.get('/:id', controller.getCartByID)
+.post ('/', controller.createCart)
+.delete('/:id', controller.deleteCart)
 
 module.exports = router;

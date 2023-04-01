@@ -9,6 +9,7 @@ connectDB(mongoDbString);
 // Load models
 const Product = require('./Models/products');
 const Users = require('./Models/user');
+const Carts = require('./Models/carts');
 
 // Read JSON files
 const productsSeed = JSON.parse(
@@ -16,6 +17,9 @@ const productsSeed = JSON.parse(
 );
 const userSeed = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
+);
+const cartsSeed = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/carts.json`, 'utf-8')
 );
 
 
@@ -27,7 +31,7 @@ const importData = async () => {
     
     await Promise.all(productsSeed.map(async (p) => {
       const product = new Product({
-        id: new mongoose.Types.ObjectId(),
+        id: p.id,
         imageUrl: p.imageUrl,
         title: p.title,
         description: p.description,
@@ -50,6 +54,19 @@ const importData = async () => {
 
     })); 
 
+    await Promise.all(cartsSeed.map(async (c) => {
+      const carts = new Carts({
+        id: c.id,
+        userId: c.userId,
+        totalPrice: c.totalPrice,
+        status: c.status,
+        products: c.products,
+      })
+
+      await carts.save();
+
+    })); 
+
     console.log('Data Imported...');
     process.exit();
   } catch (err) {
@@ -62,6 +79,7 @@ const deleteData = async () => {
   try {
     await Product.deleteMany();
     await Users.deleteMany();
+    await Carts.deleteMany();
     
 
     console.log('Data Destroyed...');
