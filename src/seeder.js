@@ -8,10 +8,14 @@ connectDB(mongoDbString);
 
 // Load models
 const Product = require('./Models/product');
+const Users = require('./Models/user');
 
 // Read JSON files
 const productsSeed = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/products.json`, 'utf-8')
+);
+const userSeed = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
 );
 
 
@@ -33,6 +37,18 @@ const importData = async () => {
       await product.save();
 
     })); 
+    await Promise.all(userSeed.map(async (u) => {
+      const user = new Users({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        role: u.role,
+        password: u.password,
+      })
+
+      await user.save();
+
+    })); 
 
     console.log('Data Imported...');
     process.exit();
@@ -45,6 +61,8 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await Product.deleteMany();
+    await Users.deleteMany();
+    
 
     console.log('Data Destroyed...');
     process.exit();
