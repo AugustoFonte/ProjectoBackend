@@ -9,6 +9,8 @@ const asyncHandler = require('../Middleware/async');
 // @route     GET /shopping-carts
 // @access    Public
 exports.getCarts = asyncHandler(async (req, res, next) => {
+        // #swagger.tags = ['Carts']
+        // #swagger.description = 'Endpoint para obter todos os carrinhos.'
   const carts = await model.find();
 
   data = [];
@@ -42,7 +44,12 @@ exports.getCarts = asyncHandler(async (req, res, next) => {
 // @route     GET /shopping-carts/:id
 // @access    Public
 exports.getCartByID = asyncHandler(async (req, res, next) => {
+
+          // #swagger.tags = ['Cart']
+        // #swagger.description = 'Endpoint para obter um único carrinho por ID.'
+
   const data = await model.findById(req.params.id);
+  
 
   if (!data) {
     res.status(404).json({
@@ -77,6 +84,10 @@ exports.getCartByID = asyncHandler(async (req, res, next) => {
 // @route     POST /shopping-carts/
 // @access    Private
 exports.createCart = asyncHandler(async (req, res, next) => {
+
+        // #swagger.tags = ['creatCart']
+        // #swagger.description = 'Endpoint para criar um novo carrinho.'
+
   if(req.body.userId === "") {
     res.status(400).json({
       message: `failed to create cart, cannot link user to cart`,
@@ -104,6 +115,10 @@ exports.createCart = asyncHandler(async (req, res, next) => {
 // @route     DELETE /shopping-carts/:id
 // @access    Private
 exports.deleteCart = asyncHandler(async (req, res, next) => {
+
+        // #swagger.tags = ['deleteCart']
+        // #swagger.description = 'Endpoint para apagar um carrinho pelo seu ID.'
+
   const data = await model.findByIdAndDelete(req.params.id); // https://attacomsian.com/blog/mongoose-delete-documents
   if (!data) {
     res.status(404).json({

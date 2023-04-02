@@ -1,8 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('../swagger_output.json')
+const cors = require('cors')
 
-const auth = require('./Routes/auth');
 const products = require('./Routes/products');
 const shoppingCarts = require('./Routes/carts');
 
@@ -15,8 +16,10 @@ if (process.env.NODE_ENV === 'development') {
 
 app
   .use(express.json())
+  .use(cors())
   .use('/products', products)
-  .use('/shopping-carts', shoppingCarts);
-  //.use('/api/v1/auth', auth);
+  .use('/shopping-carts', shoppingCarts)
+  .use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+ 
 
 module.exports = app;

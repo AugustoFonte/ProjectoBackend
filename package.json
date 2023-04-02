@@ -7,13 +7,15 @@
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node ./src/seeder.js -i",
-    "delete": "node ./src/seeder.js -d"
+    "delete": "node ./src/seeder.js -d",
+    "swagger-autogen": "node swagger.js"
   },
   "author": "Augusto Fonte",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
@@ -25,6 +27,9 @@
     "mongoose": "^7.0.2",
     "morgan": "^1.10.0",
     "node-uuid": "^1.4.8",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "swagger-autogen": "^2.23.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2"
   }
 }

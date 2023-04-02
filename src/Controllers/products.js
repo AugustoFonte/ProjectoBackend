@@ -7,6 +7,9 @@ const asyncHandler = require('../Middleware/async');
 // @route     GET /products
 // @access    Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
+        // #swagger.tags = ['Products']
+        // #swagger.description = 'Endpoint para obter um todos os productos.'
+
   const products = await model.find();
 
   data = [];
@@ -30,6 +33,10 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
 // @route     GET /products/:id
 // @access    Public
 exports.getProduct = asyncHandler(async (req, res, next) => {
+
+        // #swagger.tags = ['Product']
+        // #swagger.description = 'Endpoint para obter um producto por ID.'
+  
   const data = await model.findById(req.params.id);
 
   if (!data) {
@@ -56,6 +63,10 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 // @route     POST /products
 // @access    Private
 exports.createProduct = asyncHandler(async (req, res, next) => {
+
+        // #swagger.tags = ['creatProduct']
+        // #swagger.description = 'Endpoint para criar um novo producto.'
+
   if(req.body.title === "") {
     res.status(400).json({
       message: `failed to create product, please add a title`,
@@ -81,6 +92,10 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 // @route     PUT /products/:id
 // @access    Private
 exports.updateProduct = asyncHandler(async (req, res, next) => {
+  
+        // #swagger.tags = ['updateProduct']
+        // #swagger.description = 'Endpoint para dar update a um producto pelo ID.'
+
   const update = await model.findByIdAndUpdate(req.params.id, req.params.body);
     if(!update) {
       res.status(400).json({
@@ -100,6 +115,10 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 // @route     DELETE /products/:id
 // @access    Private
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
+
+        // #swagger.tags = ['deleteProduct']
+        // #swagger.description = 'Endpoint para apagar um producto pelo seu ID.'
+
   const data = await model.findByIdAndDelete(req.params.id); // https://attacomsian.com/blog/mongoose-delete-documents
   if (!data) {
     res.status(404).json({
