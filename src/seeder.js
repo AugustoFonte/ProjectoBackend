@@ -2,6 +2,7 @@ const fs = require('fs');
 const connectDB = require('./database/mongodb');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const logger = require("./logger");
 
 const mongoDbString = process.env.MONGO_URI;
 connectDB(mongoDbString);
@@ -67,10 +68,10 @@ const importData = async () => {
 
     })); 
 
-    console.log('Data Imported...');
+    logger.info('Data Imported...');
     process.exit();
   } catch (err) {
-    console.error(err);4
+    logger.error(err);4
   }
 };
 
@@ -82,10 +83,10 @@ const deleteData = async () => {
     await Carts.deleteMany();
     
 
-    console.log('Data Destroyed...');
+    logger.info('Data Destroyed...');
     process.exit();
   } catch (err) {
-    console.error(err);
+    logger.error(err);
   }
 };
 

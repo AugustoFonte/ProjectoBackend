@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const logger = require("./logger");
 const database = mongoose.connection
 
 const connectDB = async (mongoDbString) => {
@@ -8,15 +8,15 @@ const connectDB = async (mongoDbString) => {
     useUnifiedTopology: true
   });
 
-  console.log(`MongoDB Connected: ${conn.connection.host}`);
+  logger.info(`MongoDB Connected: ${conn.connection.host}`);
 };
 
 database.on('error', (error) => {
-  console.log(error);
+  logger.error(error);
 });
 
 database.once('connected', () => {
-  console.log('database connected');
+  logger.info('database connected');
 });
 
 module.exports = connectDB;

@@ -66,3 +66,4 @@ http://localhost:3001/doc
 -  Use async in foreach https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
 - uuid v4: https://www.uuidgenerator.net/version4 - id in products.json obtained from site
 - Nodejs + MongoDB usage: https://www.freecodecamp.org/news/build-a-restful-api-using-node-express-and-mongodb/
+- Logger https://reflectoring.io/node-logging-winston/

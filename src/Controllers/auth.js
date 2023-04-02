@@ -1,6 +1,8 @@
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../Middleware/async');
 const User = require('../Models/user');
+const logger = require("./logger");
+
 
 // @desc      Register user
 // @route     POST /api/v1/auth/register
@@ -43,8 +45,8 @@ exports.login = asyncHandler(async (req, res, next) => {
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
-  console.log('user');
-  console.log(user);
+  logger.info('user');
+  logger.info(user);
   sendTokenResponse(user, 200, res);
 
 });
