@@ -1,7 +1,7 @@
 const server = require('./server')
 const connectDB = require('./database/mongodb');
 require('dotenv').config();
-const logger = require("./logger");
+const logger = require("../logger");
 
 const mongoDbString = process.env.MONGO_URI;
 connectDB(mongoDbString);
